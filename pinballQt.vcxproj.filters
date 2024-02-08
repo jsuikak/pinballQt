@@ -70,6 +70,12 @@
     <ClCompile Include="GameCore\GameObjs\MovingObj.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameCore\Common\rc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gameWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCore\Playground.h">
@@ -96,5 +102,18 @@
     <ClInclude Include="GameCore\GameObjs\MovingObj.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameCore\Common\rc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="gameWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="GameCore\Common\gameWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

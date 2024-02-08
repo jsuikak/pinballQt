@@ -69,7 +69,7 @@ QPushButton:pressed{
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="startBtn">
             <property name="font">
              <font>
               <family>Microsoft YaHei</family>

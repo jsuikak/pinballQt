@@ -7,6 +7,7 @@ class ObjBoard :
     public MovingObj
 {
 public:
-    ObjBoard() = default;
+    ObjBoard(const Position& pos = {}, const Velocity& vel = {}, bool visible = true);
+    int length = 10; // °å×Ó³¤¶È
 };
 

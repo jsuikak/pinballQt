@@ -4,10 +4,10 @@
 #include "Common//Velocity.h"
 
 class ObjBall :
-    public MovingObj
+	public MovingObj
 {
 public:
-    ObjBall() = default;
-    
+	ObjBall(const Position& pos = {}, const Velocity& vel = {}, bool visible = true);
+	int radius = 5; // Ð¡Çò°ë¾¶
 };
 

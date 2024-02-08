@@ -10,8 +10,8 @@ class MovingObj :
 {
 public:
 	MovingObj() = default;
-	MovingObj(const Position& pos, const Velocity& vel)
-		: pos(pos), vel(vel)
+	MovingObj(const Position& pos, const Velocity& vel, ObjType type = NONE, bool visible = true)
+		: GameObj(type, visible), pos(pos), vel(vel)
 	{
 	}
 	void set_pos(const Position& pos) { this->pos = pos; }
@@ -25,7 +25,12 @@ public:
 	// 单纯地根据位置和速度计算下一时刻的位置和速度
 	void update_one_frame();
 
+	// 当前时刻的位置
 	Position pos;
+
+	// 上一时刻的位置
+	Position pre_pos{ -1,-1 };
+
 	Velocity vel;
 };
 

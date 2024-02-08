@@ -73,7 +73,7 @@
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -90,6 +90,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gameWindow.cpp" />
+    <ClCompile Include="GameCore\Common\rc.cpp" />
     <ClCompile Include="GameCore\Playground.cpp" />
     <ClCompile Include="GameCore\Common\Vec2D.cpp" />
     <ClCompile Include="GameCore\Common\Position.cpp" />
@@ -98,6 +100,7 @@
     <ClCompile Include="GameCore\GameObjs\ObjBoard.cpp" />
     <ClCompile Include="GameCore\GameObjs\MovingObj.cpp" />
     <QtRcc Include="mainWindow.qrc" />
+    <QtUic Include="GameCore\Common\gameWindow.ui" />
     <QtUic Include="mainWindow.ui" />
     <QtMoc Include="mainWindow.h" />
     <ClCompile Include="GameCore\GameObjs\GameObj.cpp" />
@@ -107,6 +110,8 @@
     <ResourceCompile Include="pinballQt.rc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="gameWindow.h" />
+    <ClInclude Include="GameCore\Common\rc.h" />
     <ClInclude Include="GameCore\Playground.h" />
     <ClInclude Include="GameCore\Common\Vec2D.h" />
     <ClInclude Include="GameCore\Common\Position.h" />
