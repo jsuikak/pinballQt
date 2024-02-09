@@ -90,6 +90,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameThread.cpp" />
     <ClCompile Include="gameWindow.cpp" />
     <ClCompile Include="GameCore\Common\rc.cpp" />
     <ClCompile Include="GameCore\Playground.cpp" />
@@ -110,6 +111,7 @@
     <ResourceCompile Include="pinballQt.rc" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="GameThread.h" />
     <QtMoc Include="gameWindow.h" />
     <ClInclude Include="GameCore\Common\rc.h" />
     <ClInclude Include="GameCore\Playground.h" />

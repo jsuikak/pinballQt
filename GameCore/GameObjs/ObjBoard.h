@@ -8,6 +8,7 @@ class ObjBoard :
 {
 public:
     ObjBoard(const Position& pos = {}, const Velocity& vel = {}, bool visible = true);
-    int length = 10; // 板子长度
+    int length = 40; // 板子长度
+    int width = 10; // 板子宽度
 };
 

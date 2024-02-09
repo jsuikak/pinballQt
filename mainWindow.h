@@ -18,5 +18,5 @@ public:
 
 private:
     Ui::mainWindowClass *ui;
-    gameWindow* game_win_;
+    GameWindow* game_win_;
 };

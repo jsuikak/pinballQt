@@ -32,5 +32,8 @@ public:
 	Position pre_pos{ -1,-1 };
 
 	Velocity vel;
+private:
+	// 一帧表示多少秒
+	const float delta_t_ = 0.005;
 };
 

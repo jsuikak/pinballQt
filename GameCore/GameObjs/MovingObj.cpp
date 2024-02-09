@@ -12,5 +12,6 @@ void MovingObj::reverse_y_vel()
 
 void MovingObj::update_one_frame()
 {
-
+	pos += vel * delta_t_;
+	pre_pos = pos;
 }
