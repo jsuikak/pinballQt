@@ -14,11 +14,17 @@ struct GameOpt {
 	GameOpt() = default;
 	~GameOpt() = default;
 };
+
+enum BallPossession {
+	LEFT, RIGHT
+};
+
 // 游戏进行的场地
 // 管理游戏内各物体
 // 提供改变游戏状态的接口
 class Playground
 {
+	friend class GameWindow;
 public:
 	Playground(GameOpt opt);
 
@@ -58,6 +64,7 @@ private:
 	int height_;
 
 	float board_speed_ = 0.3;
+	float ball_speed = 0.3;
 
 	// 板子与地图边界的距离
 	int board_margin_ = 10;
@@ -65,5 +72,8 @@ private:
 	// 物体
 	std::vector<std::shared_ptr<ObjBall>> balls_;
 	std::vector<std::shared_ptr<ObjBoard>> boards_;
+
+	// 球权(谁发球)
+	BallPossession possession_ = LEFT;
 };
 

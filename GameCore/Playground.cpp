@@ -1,4 +1,5 @@
 #include "Playground.h"
+#include <qdebug.h>
 
 Playground::Playground(GameOpt opt) :opt(opt), width_(opt.width), height_(opt.height)
 {
@@ -44,6 +45,22 @@ void Playground::board_ctrl(int player, int dir)
 	}
 }
 
+void Playground::shoot_ball(int player, float angle)
+{
+	if (player == 0) {
+		// 左边
+		balls_[0]->set_pos(Position(boards_[0]->pos));
+		balls_[0]->set_vel(Velocity(
+			ball_speed * cosf(angle),
+			ball_speed * sinf(angle)
+		));
+	}
+	else {
+
+	}
+
+}
+
 RC Playground::update_one_frame()
 {
 	for (auto& obj : get_game_objs()) {
@@ -87,4 +104,49 @@ void Playground::board_check_bound()
 
 void Playground::ball_check_bound()
 {
+	for (auto&& ball : balls_) {
+		auto&& vel = ball->vel;
+		auto&& pos = ball->pos;
+		const float radius = ball->radius;
+		/* 检查上下边界 */
+		if (vel.y > 0 && (pos.y + radius > height_ - 1)) {
+			qDebug() << "ball check up bound";
+			vel.reverse_y();
+		}
+		else if (vel.y < 0 && (pos.y < radius)) {
+			qDebug() << "ball check down bound";
+			vel.reverse_y();
+		}
+
+		/* 检查板子碰撞 */
+		if (vel.x > 0) {
+			// 检查右板子
+			auto&& board = boards_[1];
+			float board_up_bound = board->pos.y - board->length / 2.0f;
+			float board_down_bound = board->pos.y + board->length / 2.0f;
+			if (pos.x + radius > board->pos.x - board->width / 2.0f)
+			{
+				//qDebug() << "ball hit right line";
+				if (board_down_bound >= pos.y && pos.y >= board_up_bound) {
+					//qDebug() << "ball hit right board";
+					vel.reverse_x();
+				}
+			}
+		}
+		else if (vel.x < 0) {
+			// 检查左板子
+			auto&& board = boards_[0];
+			float board_up_bound = board->pos.y - board->length / 2.0f;
+			float board_down_bound = board->pos.y + board->length / 2.0f;
+			if (pos.x - radius < board->pos.x + board->width / 2.0f)
+			{
+				//qDebug() << "ball hit left line";
+				if (board_down_bound >= pos.y && pos.y >= board_up_bound) {
+					//qDebug() << "ball hit left board";
+					vel.reverse_x();
+				}
+			}
+		}
+	}
+
 }

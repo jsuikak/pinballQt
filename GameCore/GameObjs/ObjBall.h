@@ -8,6 +8,6 @@ class ObjBall :
 {
 public:
 	ObjBall(const Position& pos = {}, const Velocity& vel = {}, bool visible = true);
-	int radius = 5; // Ð¡Çò°ë¾¶
+	int radius = 10; // Ð¡Çò°ë¾¶
 };
 
