@@ -1,5 +1,8 @@
 #include "ObjBoard.h"
 
-ObjBoard::ObjBoard(const Position& pos, const Velocity& vel, bool visible) :MovingObj(pos, vel, BOARD, visible)
+ObjBoard::ObjBoard(float length, float width, const Position& pos, const Velocity& vel, bool visible)
+	:MovingObj(pos, vel, BOARD, visible),
+	length(length),
+	width(width)
 {
 }

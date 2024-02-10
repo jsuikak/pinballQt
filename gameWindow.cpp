@@ -28,41 +28,34 @@ void GameWindow::init_game()
 	running = true;
 }
 
-void GameWindow::game_loop()
-{
-	while (true) {
-		// 绘制画面
-		update();
-
-		// 游戏更新一刻 
-		playground_->update_one_frame();
-
-		// 查询游戏状态
-		RC status = playground_->game_status();
-		if (status != RC::SUCCESS) {
-			break;
-		}
-	}
-}
-
 void GameWindow::paintEvent(QPaintEvent* event)
 {
 	//qDebug() << "painEvent";
 	// 获取所有物体
 	const auto& objs = playground_->get_game_objs();
 	QPainter painter(this);
-	painter.setPen(QColor(255, 0, 0));
-	painter.setBrush(QColor(255, 255, 255));
+
+	// 画背景
+	painter.setPen(opt_.background_color);
+	painter.setBrush(opt_.background_color);
+	painter.drawRect(this->rect());
 
 	// 画圆
-	auto ball = std::dynamic_pointer_cast<ObjBall>(objs[2]);
+	//auto ball = std::dynamic_pointer_cast<ObjBall>(objs[2]);
+	painter.setPen(opt_.ball_color);
+	painter.setBrush(opt_.ball_color);
+	ObjBall* ball = dynamic_cast<ObjBall*>(objs[2].get());
+	float radius = ball->radius;
 	painter.drawEllipse(QRect(
-		QPoint(ball->pos.x, ball->pos.y),
+		QPoint(ball->pos.x - radius, ball->pos.y - radius),
 		QSize(ball->radius * 2, ball->radius * 2)
 	));
 
 	// 画板子
-	auto b1 = std::dynamic_pointer_cast<ObjBoard>(objs[0]);
+	painter.setPen(opt_.board_color);
+	painter.setBrush(opt_.board_color);
+	//auto b1 = std::dynamic_pointer_cast<ObjBoard>(objs[0]);
+	ObjBoard* b1 = dynamic_cast<ObjBoard*>(objs[0].get());
 	float half_width = b1->width / 2.0f;
 	float half_length = b1->length / 2.0f;
 	painter.drawRect(QRect(
@@ -70,7 +63,8 @@ void GameWindow::paintEvent(QPaintEvent* event)
 		QPoint(b1->pos.x + half_width, b1->pos.y + half_length)
 	));
 
-	auto b2 = std::dynamic_pointer_cast<ObjBoard>(objs[1]);
+	//auto b2 = std::dynamic_pointer_cast<ObjBoard>(objs[1]);
+	ObjBoard* b2 = dynamic_cast<ObjBoard*>(objs[1].get());
 	half_width = b2->width / 2.0f;
 	half_length = b2->length / 2.0f;
 	painter.drawRect(QRect(
@@ -126,5 +120,12 @@ void GameWindow::keyReleaseEvent(QKeyEvent* event)
 	default:
 		break;
 	}
+}
+
+void GameWindow::closeEvent(QCloseEvent* event)
+{
+	emit windowClosed();
+	// 关闭窗口
+	event->accept();
 }
 

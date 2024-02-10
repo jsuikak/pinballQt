@@ -7,7 +7,7 @@ class ObjBall :
 	public MovingObj
 {
 public:
-	ObjBall(const Position& pos = {}, const Velocity& vel = {}, bool visible = true);
-	int radius = 10; // Ð¡Çò°ë¾¶
+	ObjBall(float radius = 10, const Position& pos = {}, const Velocity& vel = {}, bool visible = true);
+	float radius; // Ð¡Çò°ë¾¶
 };
 

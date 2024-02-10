@@ -19,23 +19,23 @@ public:
 	~GameWindow();
 
 	void init_game();
-
-	// 循环
-	void game_loop();
-
 protected:
 	void paintEvent(QPaintEvent* event);
 	void keyPressEvent(QKeyEvent* event);
 	void keyReleaseEvent(QKeyEvent* event);
-	
+	void closeEvent(QCloseEvent* event) override;
 private:
-
 	Ui::gameWindowClass* ui;
 	Playground* playground_;
 
 	// 用于绘制画面
 	//std::vector<std::shared_ptr<GameObj>> objs_;
+	//QPainter *painter{ nullptr };
+
 	bool running = false;
 	GameOpt opt_;
 	//QTimer timer{ this };
+
+signals:
+	void windowClosed();
 };

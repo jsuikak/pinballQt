@@ -7,7 +7,7 @@ GameThread::GameThread(GameWindow* game_window, QObject* parent) :QThread(parent
 	playground_ = game_window->playground_;
 	game_win_ = game_window;
 	//connect(this, &GameThread::need_update, game_window, qOverload<>(&QWidget::update));
-	//connect(game_win_, &QWidget::close, this, std::bind(&QThread::exit,this,0));
+	connect(game_win_, &GameWindow::windowClosed, this, [this]() {thread_stop = true; });
 }
 
 
@@ -15,6 +15,7 @@ void GameThread::run()
 {
 	while (true) {
 		// 绘制画面
+		QThread::currentThread()->msleep(10);
 		//emit need_update();
 		game_win_->update();
 
@@ -23,7 +24,7 @@ void GameThread::run()
 
 		// 查询游戏状态
 		RC status = playground_->game_status();
-		if (status != RC::SUCCESS) {
+		if (status != RC::SUCCESS || thread_stop) {
 			break;
 		}
 	}

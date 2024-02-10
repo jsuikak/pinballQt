@@ -34,6 +34,6 @@ public:
 	Velocity vel;
 private:
 	// 一帧表示多少秒
-	const float delta_t_ = 0.005;
+	const float delta_t_ = 1;
 };
 

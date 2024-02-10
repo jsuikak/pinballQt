@@ -1,15 +1,30 @@
 #pragma once
 #include <vector>
 #include <memory>
+#include <mutex>
 #include <qcolor.h>
+
 #include "Common/rc.h"
 #include "GameObjs/ObjBall.h"
 #include "GameObjs/ObjBoard.h"
 struct GameOpt {
+	// 场地尺寸
 	int width = 800;
 	int height = 600;
-	bool balll_init_visible = true;
-	QColor ball_color{ 255,255,0 };
+	QColor background_color{ 245, 255, 253 };
+
+	float board_speed = 15;
+	float ball_speed = 10;
+
+
+	float board_margin = 20.0; // 板子与地图边界的距离
+	float board_length = 100.0; // 板子长度
+	float board_width = 10.0; // 板子宽度
+	QColor board_color{ 208, 187, 134 };
+
+	bool ball_init_visible = true;
+	float ball_radius = 10.0f;
+	QColor ball_color{ 84, 93, 165 };
 
 	GameOpt() = default;
 	~GameOpt() = default;
@@ -59,15 +74,6 @@ private:
 	void board_check_bound();
 	// 检查所有球是否触及边界
 	void ball_check_bound();
-	// 场地尺寸
-	int width_;
-	int height_;
-
-	float board_speed_ = 0.3;
-	float ball_speed = 0.3;
-
-	// 板子与地图边界的距离
-	int board_margin_ = 10;
 
 	// 物体
 	std::vector<std::shared_ptr<ObjBall>> balls_;

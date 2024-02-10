@@ -7,8 +7,8 @@ class ObjBoard :
     public MovingObj
 {
 public:
-    ObjBoard(const Position& pos = {}, const Velocity& vel = {}, bool visible = true);
-    int length = 100; // 板子长度
-    int width = 10; // 板子宽度
+    ObjBoard(float length = 100.0, float width = 10.0, const Position& pos = {}, const Velocity& vel = {}, bool visible = true);
+    float length ; // 板子长度
+    float width ; // 板子宽度
 };
 
