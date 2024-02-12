@@ -118,7 +118,7 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="GameCore\Common\gameWindow.ui">
+    <QtUic Include="gameWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

@@ -101,7 +101,7 @@
     <ClCompile Include="GameCore\GameObjs\ObjBoard.cpp" />
     <ClCompile Include="GameCore\GameObjs\MovingObj.cpp" />
     <QtRcc Include="mainWindow.qrc" />
-    <QtUic Include="GameCore\Common\gameWindow.ui" />
+    <QtUic Include="gameWindow.ui" />
     <QtUic Include="mainWindow.ui" />
     <QtMoc Include="mainWindow.h" />
     <ClCompile Include="GameCore\GameObjs\GameObj.cpp" />
