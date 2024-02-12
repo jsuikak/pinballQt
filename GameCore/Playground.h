@@ -26,6 +26,8 @@ struct GameOpt {
 	float ball_radius = 10.0f;
 	QColor ball_color{ 84, 93, 165 };
 
+	float delta_t = 1; // Ê±¼ä¼ä¸ô
+
 	GameOpt() = default;
 	~GameOpt() = default;
 };

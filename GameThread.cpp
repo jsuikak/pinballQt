@@ -15,7 +15,7 @@ void GameThread::run()
 {
 	while (true) {
 		// »æÖÆ»­Ãæ
-		QThread::currentThread()->msleep(10);
+		QThread::currentThread()->msleep(12);
 		//emit need_update();
 		game_win_->update();
 

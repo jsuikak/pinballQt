@@ -10,6 +10,7 @@ GameWindow::GameWindow(QWidget* parent)
 {
 	ui->setupUi(this);
 	GameOpt opt;
+	opt.ball_speed = 10;
 	//game_ = new Game(opt);
 	playground_ = new Playground(opt);
 	opt_ = opt;
