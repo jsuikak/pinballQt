@@ -151,13 +151,10 @@ void Playground::ball_check_bound()
 		if (vel.x > 0) {
 			// ¼ì²éÓÒ°å×Ó
 			float hit_x = pos_b2.x - b2_half_width;
-			auto t = calc_t(hit_x, pre_pos.x + radius, opt.delta_t, vel.x);
-			if (t <= 1 && 0 <= t) { // Åö×²
-				//qDebug() << "hit board left bound line";
-				if (b2_down_bound + radius >= pos.y && pos.y >= b2_up_bound - radius) {
-					//qDebug() << "hit board left bound";
-					float new_x = calc_new(hit_x, pre_pos.x + radius, opt.delta_t, vel.x);
-					ball->pos.x = new_x - radius;
+			if (b2_down_bound + radius >= pos.y && pos.y >= b2_up_bound - radius) {
+				const float t = calc_t(hit_x, pre_pos.x + radius, opt.delta_t, vel.x);
+				if (t <= 1 && 0 <= t) { // Åö×²
+					ball->pos.x = calc_new(hit_x, pre_pos.x + radius, opt.delta_t, vel.x) - radius;
 					ball->reverse_x_vel();
 				}
 			}
@@ -165,13 +162,10 @@ void Playground::ball_check_bound()
 		else if (vel.x < 0) {
 			// ¼ì²é×ó°å×Ó
 			const float hit_x = pos_b1.x + b1_half_width;
-			const float t = calc_t(hit_x, ball->pos.x - radius, opt.delta_t, vel.x);
-			if (t <= 1 && 0 <= t) { // Åö×²
-				//qDebug() << "hit board right bound line";
-				if (b1_down_bound + radius >= pos.y && pos.y >= b1_up_bound - radius) {
-					//qDebug() << "hit board right bound";
-					float new_x = calc_new(hit_x, ball->pos.x - radius, opt.delta_t, vel.x);
-					ball->pos.x = new_x + radius;
+			if (b1_down_bound + radius >= pos.y && pos.y >= b1_up_bound - radius) {
+				const float t = calc_t(hit_x, ball->pos.x - radius, opt.delta_t, vel.x);
+				if (t <= 1 && 0 <= t) { // Åö×²
+					ball->pos.x = calc_new(hit_x, ball->pos.x - radius, opt.delta_t, vel.x) + radius;
 					ball->reverse_x_vel();
 				}
 			}
