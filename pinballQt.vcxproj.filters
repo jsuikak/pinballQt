@@ -108,6 +108,9 @@
     <ClInclude Include="GameCore\Common\rc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameCore\Common\GameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="gameWindow.h">

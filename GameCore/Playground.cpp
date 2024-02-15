@@ -8,6 +8,7 @@ Playground::Playground(GameOpt opt) :opt(opt)
 
 	boards_.emplace_back(std::make_shared<ObjBoard>());
 	boards_.emplace_back(std::make_shared<ObjBoard>());
+	game_state_ = GameState::WAIT_TO_START;
 }
 
 void Playground::init_gameobjs()
@@ -80,11 +81,6 @@ RC Playground::update_one_frame()
 std::vector<std::shared_ptr<GameObj>> Playground::get_game_objs()
 {
 	return std::vector<std::shared_ptr<GameObj>>{boards_[0], boards_[1], balls_[0]};
-}
-
-RC Playground::game_status()
-{
-	return RC::SUCCESS;
 }
 
 void Playground::board_check_bound()

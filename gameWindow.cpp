@@ -15,6 +15,8 @@ GameWindow::GameWindow(QWidget* parent)
 	playground_ = new Playground(opt);
 	opt_ = opt;
 	this->resize(opt_.width, opt_.height);
+
+	//setMouseTracking(true);
 }
 
 GameWindow::~GameWindow()
@@ -26,7 +28,32 @@ GameWindow::~GameWindow()
 void GameWindow::init_game()
 {
 	playground_->init_gameobjs();
-	running = true;
+	running_ = true;
+}
+
+void GameWindow::mouseMoveEvent(QMouseEvent* event)
+{
+	if (aiming_) {
+		QPoint p = event->pos();
+		if (playground_->possession_ == LEFT) {
+			const Position p_b = playground_->left_board()->pos;
+			angle_ = atan2f(p.y() - p_b.y, p.x() - p_b.x);
+		}
+		else {
+			const Position p_b = playground_->right_board()->pos;
+			angle_ = atan2f(p.y() - p_b.y, p.x() - p_b.x);
+		}
+	}
+}
+
+void GameWindow::mousePressEvent(QMouseEvent* event)
+{
+	aiming_ = true;
+}
+
+void GameWindow::mouseReleaseEvent(QMouseEvent* event)
+{
+	aiming_ = false;
 }
 
 void GameWindow::paintEvent(QPaintEvent* event)
@@ -35,6 +62,7 @@ void GameWindow::paintEvent(QPaintEvent* event)
 	// 获取所有物体
 	const auto& objs = playground_->get_game_objs();
 	QPainter painter(this);
+	painter.setRenderHint(QPainter::Antialiasing);
 
 	// 画背景
 	painter.setPen(opt_.background_color);
@@ -56,7 +84,7 @@ void GameWindow::paintEvent(QPaintEvent* event)
 	painter.setPen(opt_.board_color);
 	painter.setBrush(opt_.board_color);
 	//auto b1 = std::dynamic_pointer_cast<ObjBoard>(objs[0]);
-	ObjBoard* b1 = dynamic_cast<ObjBoard*>(objs[0].get());
+	auto&& b1 = playground_->left_board();
 	float half_width = b1->width / 2.0f;
 	float half_length = b1->length / 2.0f;
 	painter.drawRect(QRect(
@@ -64,14 +92,32 @@ void GameWindow::paintEvent(QPaintEvent* event)
 		QPoint(b1->pos.x + half_width, b1->pos.y + half_length)
 	));
 
-	//auto b2 = std::dynamic_pointer_cast<ObjBoard>(objs[1]);
-	ObjBoard* b2 = dynamic_cast<ObjBoard*>(objs[1].get());
+	auto&& b2 = playground_->right_board();
 	half_width = b2->width / 2.0f;
 	half_length = b2->length / 2.0f;
 	painter.drawRect(QRect(
 		QPoint(b2->pos.x - half_width, b2->pos.y - half_length),
 		QPoint(b2->pos.x + half_width, b2->pos.y + half_length)
 	));
+
+
+	// 瞄准线
+	if (aiming_) {
+		float r = opt_.aim_line_length;
+		painter.setPen(opt_.aim_line_color);
+		if (playground_->possession_ == LEFT) {
+			Position b_p = playground_->left_board()->pos;
+			QPoint p1(b_p.x + playground_->left_board()->half_width + opt_.aim_line_margin, b_p.y);
+			QPoint delta(r * cosf(angle_), r * sinf(angle_));
+			painter.drawLine(p1, p1 + delta);
+		}
+		else {
+			Position b_p = playground_->right_board()->pos;
+			QPoint p1(b_p.x - playground_->left_board()->half_width - opt_.aim_line_margin, b_p.y);
+			QPoint delta(r * cosf(angle_), r * sinf(angle_));
+			painter.drawLine(p1, p1 + delta);
+		}
+	}
 }
 
 void GameWindow::keyPressEvent(QKeyEvent* event)
@@ -93,10 +139,10 @@ void GameWindow::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Space: {
 		// 发球
 		if (playground_->possession_ == LEFT) {
-			this->playground_->shoot_ball(0);
+			this->playground_->shoot_ball(0, angle_);
 		}
 		else {
-			this->playground_->shoot_ball(1);
+			this->playground_->shoot_ball(1, angle_);
 		}
 	}break;
 

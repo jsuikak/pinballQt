@@ -20,9 +20,13 @@ public:
 
 	void init_game();
 protected:
-	void paintEvent(QPaintEvent* event);
-	void keyPressEvent(QKeyEvent* event);
-	void keyReleaseEvent(QKeyEvent* event);
+	void mouseMoveEvent(QMouseEvent* event) override;
+	void mousePressEvent(QMouseEvent* event) override;
+	void mouseReleaseEvent(QMouseEvent* event) override;
+
+	void paintEvent(QPaintEvent* event) override;
+	void keyPressEvent(QKeyEvent* event) override;
+	void keyReleaseEvent(QKeyEvent* event) override;
 	void closeEvent(QCloseEvent* event) override;
 private:
 	Ui::gameWindowClass* ui;
@@ -32,7 +36,14 @@ private:
 	//std::vector<std::shared_ptr<GameObj>> objs_;
 	//QPainter *painter{ nullptr };
 
-	bool running = false;
+	// 游戏正在进行
+	bool running_ = false;
+
+	// 瞄准中
+	bool aiming_ = false;
+	// 瞄准角度
+	float angle_ = 45.0f;
+
 	GameOpt opt_;
 	//QTimer timer{ this };
 

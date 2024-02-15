@@ -1,13 +1,14 @@
 #include "GameThread.h"
 #include "GameCore/Playground.h"
 #include "gameWindow.h"
+#include "Common/GameState.h"
 
 GameThread::GameThread(GameWindow* game_window, QObject* parent) :QThread(parent)
 {
 	playground_ = game_window->playground_;
 	game_win_ = game_window;
 	//connect(this, &GameThread::need_update, game_window, qOverload<>(&QWidget::update));
-	connect(game_win_, &GameWindow::windowClosed, this, [this]() {thread_stop = true; });
+	connect(game_win_, &GameWindow::windowClosed, this, [this]() { thread_stop = true; });
 }
 
 
@@ -23,8 +24,9 @@ void GameThread::run()
 		playground_->update_one_frame();
 
 		// ²éÑ¯ÓÎÏ·×´Ì¬
-		RC status = playground_->game_status();
-		if (status != RC::SUCCESS || thread_stop) {
+		GameState state = playground_->game_state();
+
+		if (state == GameState::GAME_QIUT || thread_stop) {
 			break;
 		}
 	}

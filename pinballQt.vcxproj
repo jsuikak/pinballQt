@@ -113,6 +113,7 @@
   <ItemGroup>
     <QtMoc Include="GameThread.h" />
     <QtMoc Include="gameWindow.h" />
+    <ClInclude Include="GameCore\Common\GameState.h" />
     <ClInclude Include="GameCore\Common\rc.h" />
     <ClInclude Include="GameCore\Playground.h" />
     <ClInclude Include="GameCore\Common\Vec2D.h" />
