@@ -13,9 +13,21 @@ Playground::Playground(GameOpt opt) :opt(opt)
 
 void Playground::init_gameobjs()
 {
-	balls_[0] = std::make_shared<ObjBall>(opt.ball_radius, Position{}, Velocity{}, opt.ball_init_visible);
-	boards_[0] = std::make_shared<ObjBoard>(opt.board_length, opt.board_width, Position{ opt.board_margin, opt.height / 2.0f });
-	boards_[1] = std::make_shared<ObjBoard>(opt.board_length, opt.board_width, Position{ opt.width - 1 - opt.board_margin, opt.height / 2.0f });
+	//balls_[0] = std::make_shared<ObjBall>(opt.ball_radius, Position{}, Velocity{}, opt.ball_init_visible);
+	//boards_[0] = std::make_shared<ObjBoard>(opt.board_length, opt.board_width, Position{ opt.board_margin, opt.height / 2.0f });
+	//boards_[1] = std::make_shared<ObjBoard>(opt.board_length, opt.board_width, Position{ opt.width - 1 - opt.board_margin, opt.height / 2.0f });
+	balls_[0]->set_pos({});
+	balls_[0]->set_vel({});
+	balls_[0]->set_visible(opt.ball_init_visible);
+
+	boards_[0]->set_pos(Position(opt.board_margin, opt.height / 2.0f));
+	boards_[0]->set_vel({});
+	boards_[0]->set_visible(true);
+
+	boards_[1]->set_pos(Position(opt.width - 1 - opt.board_margin, opt.height / 2.0f));
+	boards_[1]->set_vel({});
+	boards_[1]->set_visible(true);
+
 }
 
 void Playground::board_ctrl(int player, int dir)
@@ -49,33 +61,41 @@ void Playground::board_ctrl(int player, int dir)
 
 void Playground::shoot_ball(int player, float angle)
 {
+	std::shared_ptr<ObjBall>& ball = balls_[0];
+	//angle = angle / 180.0f * M_PI;
+	//qDebug() << __FUNCTION__ << "angle:" << angle;
 	if (player == 0) {
 		// 左边
-		balls_[0]->set_pos(Position(boards_[0]->pos));
-		balls_[0]->set_vel(Velocity(
+		ball->set_pos(Position(left_board()->pos));
+		ball->set_vel(Velocity(
 			opt.ball_speed * cosf(angle),
 			opt.ball_speed * sinf(angle)
 		));
 	}
 	else {
-		balls_[0]->set_pos(Position(boards_[1]->pos));
-		balls_[0]->set_vel(Velocity(
-			opt.ball_speed * cosf(180 - angle),
-			opt.ball_speed * sinf(180 - angle)
+		ball->set_pos(Position(right_board()->pos));
+		ball->set_vel(Velocity(
+			opt.ball_speed * cosf(angle),
+			opt.ball_speed * sinf(angle)
 		));
 	}
-
+	ball->visible = true;
 }
 
-RC Playground::update_one_frame()
+void Playground::update_one_frame()
 {
 	for (auto& obj : get_game_objs()) {
 		obj->update_one_frame(opt.delta_t);
 	}
 	board_check_bound();
 	ball_check_bound();
-
-	return RC::SUCCESS;
+	GameState st = game_state();
+	if (st == GameState::CHECKOUT) {
+		// 结算后初始化物体
+		init_gameobjs();
+		emit a_new_round();
+		game_state_ = GameState::WAIT_TO_START;
+	}
 }
 
 std::vector<std::shared_ptr<GameObj>> Playground::get_game_objs()
@@ -85,9 +105,10 @@ std::vector<std::shared_ptr<GameObj>> Playground::get_game_objs()
 
 void Playground::board_check_bound()
 {
-	std::shared_ptr<ObjBoard> b1 = boards_[0], b2 = boards_[1];
-	float b1_half_length = b1->length / 2.0f;
-	float b2_half_length = b2->length / 2.0f;
+	const std::shared_ptr<ObjBoard>& b1 = left_board();
+	const std::shared_ptr<ObjBoard>& b2 = right_board();
+	float b1_half_length = b1->half_length;
+	float b2_half_length = b2->half_length;
 	if (b1->pos.y < b1_half_length) {
 		b1->pos.y = b1_half_length;
 	}
@@ -214,6 +235,30 @@ void Playground::ball_check_bound()
 			}
 
 		}
+
+		// 判断是否胜利
+		if (pos.x > opt.width) { // 左赢
+			player_win(0);
+			game_state_ = CHECKOUT;
+			break;
+		}
+		else if (pos.x < 0) { //右赢
+			player_win(1);
+			game_state_ = CHECKOUT;
+			break;
+		}
 	}
 
+}
+
+void Playground::player_win(int player)
+{
+	if (player == 0) {
+		possession_ = RIGHT;
+		score_p1++;
+	}
+	else if (player == 1) {
+		possession_ = LEFT;
+		score_p2++;
+	}
 }

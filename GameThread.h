@@ -14,7 +14,7 @@ private:
 	Playground* playground_{ nullptr };
 	GameWindow* game_win_{ nullptr };
 	bool thread_stop = false;
-signals:
-	void need_update();
+//signals:
+//	void need_update();
 };
 

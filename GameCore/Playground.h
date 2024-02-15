@@ -1,8 +1,11 @@
 #pragma once
+
 #include <vector>
 #include <memory>
 #include <mutex>
 #include <qcolor.h>
+#include <qobject.h>
+#include <cmath>
 
 #include "Common/rc.h"
 #include "Common/GameState.h"
@@ -24,7 +27,7 @@ struct GameOpt {
 	QColor board_color{ 208, 187, 134 };
 
 	// ball
-	bool ball_init_visible = true;
+	bool ball_init_visible = false;
 	float ball_radius = 10.0f;
 	QColor ball_color{ 84, 93, 165 };
 
@@ -46,9 +49,10 @@ enum BallPossession {
 // 游戏进行的场地
 // 管理游戏内各物体
 // 提供改变游戏状态的接口
-class Playground
+class Playground :public QObject
 {
-	friend class GameWindow;
+	Q_OBJECT
+		friend class GameWindow;
 public:
 	Playground(GameOpt opt);
 
@@ -62,11 +66,11 @@ public:
 
 	// 小球发射
 	// 指定玩家、发射的角度
-	void shoot_ball(int player, float angle = 45);
+	void shoot_ball(int player, float angle = M_PI_4);
 
 	/* 计算接口 */
 	// 游戏更新一帧
-	RC update_one_frame();
+	void update_one_frame();
 
 	/* 物体信息接口 */
 	// 返回物体集合: 板子1、板子2、球
@@ -87,6 +91,9 @@ private:
 	// 检查所有球是否触及边界
 	void ball_check_bound();
 
+	// 玩家获胜0左 1右
+	void player_win(int player);
+
 	// 物体
 	std::vector<std::shared_ptr<ObjBall>> balls_;
 	std::vector<std::shared_ptr<ObjBoard>> boards_;
@@ -94,5 +101,11 @@ private:
 	// 球权(谁发球)
 	BallPossession possession_ = LEFT;
 	GameState game_state_ = UNINITIALIZED;
+
+	int score_p1 = 0;
+	int score_p2 = 0;
+signals:
+	// 开启新回合
+	void a_new_round();
 };
 

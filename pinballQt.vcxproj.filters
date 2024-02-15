@@ -81,9 +81,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameCore\Playground.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameCore\Common\Vec2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -117,6 +114,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="GameThread.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GameCore\Playground.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

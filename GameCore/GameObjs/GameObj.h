@@ -18,6 +18,6 @@ public:
 	virtual void update_one_frame(float delta_t) = 0;
 	ObjType type;
 	bool visible;
-
+	void set_visible(bool visible) { this->visible = visible; }
 };
 

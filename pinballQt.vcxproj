@@ -65,6 +65,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -115,7 +120,7 @@
     <QtMoc Include="gameWindow.h" />
     <ClInclude Include="GameCore\Common\GameState.h" />
     <ClInclude Include="GameCore\Common\rc.h" />
-    <ClInclude Include="GameCore\Playground.h" />
+    <QtMoc Include="GameCore\Playground.h" />
     <ClInclude Include="GameCore\Common\Vec2D.h" />
     <ClInclude Include="GameCore\Common\Position.h" />
     <ClInclude Include="GameCore\Common\Velocity.h" />

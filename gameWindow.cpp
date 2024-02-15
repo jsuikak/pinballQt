@@ -16,6 +16,15 @@ GameWindow::GameWindow(QWidget* parent)
 	opt_ = opt;
 	this->resize(opt_.width, opt_.height);
 
+	connect(playground_, &Playground::a_new_round, this, [this]() {
+		if (BallPossession::LEFT == playground_->possession_) {
+			angle_ = 45;
+		}
+		else {
+			angle_ = 180 - 45;
+		}
+
+		});
 	//setMouseTracking(true);
 }
 
@@ -69,37 +78,44 @@ void GameWindow::paintEvent(QPaintEvent* event)
 	painter.setBrush(opt_.background_color);
 	painter.drawRect(this->rect());
 
-	// »­Ô²
+	// »­Çò
 	//auto ball = std::dynamic_pointer_cast<ObjBall>(objs[2]);
-	painter.setPen(opt_.ball_color);
-	painter.setBrush(opt_.ball_color);
 	ObjBall* ball = dynamic_cast<ObjBall*>(objs[2].get());
-	float radius = ball->radius;
-	painter.drawEllipse(QRect(
-		QPoint(ball->pos.x - radius, ball->pos.y - radius),
-		QSize(ball->radius * 2, ball->radius * 2)
-	));
+	if (ball->visible) {
+		painter.setPen(opt_.ball_color);
+		painter.setBrush(opt_.ball_color);
+		float radius = ball->radius;
+		painter.drawEllipse(QRect(
+			QPoint(ball->pos.x - radius, ball->pos.y - radius),
+			QSize(ball->radius * 2, ball->radius * 2)
+		));
+	}
 
 	// »­°å×Ó
-	painter.setPen(opt_.board_color);
-	painter.setBrush(opt_.board_color);
-	//auto b1 = std::dynamic_pointer_cast<ObjBoard>(objs[0]);
 	auto&& b1 = playground_->left_board();
-	float half_width = b1->width / 2.0f;
-	float half_length = b1->length / 2.0f;
-	painter.drawRect(QRect(
-		QPoint(b1->pos.x - half_width, b1->pos.y - half_length),
-		QPoint(b1->pos.x + half_width, b1->pos.y + half_length)
-	));
+	if (b1->visible) {
+		painter.setPen(opt_.board_color);
+		painter.setBrush(opt_.board_color);
+		float half_width = b1->width / 2.0f;
+		float half_length = b1->length / 2.0f;
+		//auto b1 = std::dynamic_pointer_cast<ObjBoard>(objs[0]);
+		painter.drawRect(QRect(
+			QPoint(b1->pos.x - half_width, b1->pos.y - half_length),
+			QPoint(b1->pos.x + half_width, b1->pos.y + half_length)
+		));
+	}
 
 	auto&& b2 = playground_->right_board();
-	half_width = b2->width / 2.0f;
-	half_length = b2->length / 2.0f;
-	painter.drawRect(QRect(
-		QPoint(b2->pos.x - half_width, b2->pos.y - half_length),
-		QPoint(b2->pos.x + half_width, b2->pos.y + half_length)
-	));
-
+	if (b2->visible) {
+		painter.setPen(opt_.board_color);
+		painter.setBrush(opt_.board_color);
+		float half_width = b2->width / 2.0f;
+		float half_length = b2->length / 2.0f;
+		painter.drawRect(QRect(
+			QPoint(b2->pos.x - half_width, b2->pos.y - half_length),
+			QPoint(b2->pos.x + half_width, b2->pos.y + half_length)
+		));
+	}
 
 	// Ãé×¼Ïß
 	if (aiming_) {
@@ -138,11 +154,16 @@ void GameWindow::keyPressEvent(QKeyEvent* event)
 	}break;
 	case Qt::Key_Space: {
 		// ·¢Çò
-		if (playground_->possession_ == LEFT) {
-			this->playground_->shoot_ball(0, angle_);
-		}
-		else {
-			this->playground_->shoot_ball(1, angle_);
+		if (playground_->game_state() == GameState::WAIT_TO_START) {
+			if (playground_->possession_ == LEFT) {
+				//qDebug() << "shoot ball with angle:" << angle_;
+				this->playground_->shoot_ball(0, angle_);
+			}
+			else {
+				//qDebug() << "shoot ball with angle:" << angle_;
+				this->playground_->shoot_ball(1, angle_);
+			}
+			playground_->game_state_ = GameState::GOING_ON;
 		}
 	}break;
 
