@@ -113,6 +113,22 @@ void Playground::ball_check_bound()
 		Position& pos = ball->pos;
 		const Position& pre_pos = ball->pre_pos;
 		const float radius = ball->radius;
+		auto&& pos_b1 = left_board()->pos;
+		auto&& pos_b2 = right_board()->pos;
+		auto b1_half_width = left_board()->half_width;
+		auto b1_half_length = left_board()->half_length;
+		auto b2_half_width = right_board()->half_width;
+		auto b2_half_length = right_board()->half_length;
+
+		float b1_left_bound = pos_b1.x - b1_half_width;
+		float b1_right_bound = pos_b1.x + b1_half_width;
+		float b1_up_bound = pos_b1.y - b1_half_length;
+		float b1_down_bound = pos_b1.y + b1_half_length;
+
+		float b2_left_bound = pos_b2.x - b2_half_width;
+		float b2_right_bound = pos_b2.x + b2_half_width;
+		float b2_up_bound = pos_b2.y - b2_half_length;
+		float b2_down_bound = pos_b2.y + b2_half_length;
 		/* 检查上下边界 */
 		if (vel.y > 0) {
 			const float hit_y = opt.height - 1;
@@ -134,89 +150,75 @@ void Playground::ball_check_bound()
 		/****** 检查板子碰撞 *****/
 		if (vel.x > 0) {
 			// 检查右板子
-			std::shared_ptr<ObjBoard> board = boards_[1];
-			float board_up_bound = board->pos.y - board->length / 2.0f;
-			float board_down_bound = board->pos.y + board->length / 2.0f;
-			float board_half_width = board->width / 2.0f;
-			float board_left_bound = board->pos.x - board_half_width;
-			float board_right_bound = board->pos.x + board_half_width;
-			float hit_x = board->pos.x - board_half_width;
+			float hit_x = pos_b2.x - b2_half_width;
 			auto t = calc_t(hit_x, pre_pos.x + radius, opt.delta_t, vel.x);
 			if (t <= 1 && 0 <= t) { // 碰撞
 				//qDebug() << "hit board left bound line";
-				if (board_down_bound + radius >= pos.y && pos.y >= board_up_bound - radius) {
+				if (b2_down_bound + radius >= pos.y && pos.y >= b2_up_bound - radius) {
 					//qDebug() << "hit board left bound";
 					float new_x = calc_new(hit_x, pre_pos.x + radius, opt.delta_t, vel.x);
 					ball->pos.x = new_x - radius;
 					ball->reverse_x_vel();
 				}
 			}
-			// 右板子上下边界
-			if (vel.y > 0) {
-				// 上边界
-				float t = calc_t(board_up_bound, pre_pos.y + radius, opt.delta_t, vel.y);
-				if (t <= 1 && 0 <= t) { // 碰撞
-					if (board_left_bound - radius <= pos.x && pos.x <= board_right_bound + radius) {
-						//qDebug() << "hit board up bound";
-						ball->pos.y = calc_new(board_up_bound, pre_pos.y + radius, opt.delta_t, vel.y) - radius;
-						ball->reverse_y_vel();
-					}
-				}
-			}
-			else if (vel.y < 0) {
-				// 下边界
-				float t = calc_t(board_down_bound, pre_pos.y - radius, opt.delta_t, vel.y);
-				if (t <= 1 && 0 <= t) { // 碰撞
-					if (board_left_bound - radius <= pos.x && pos.x <= board_right_bound + radius) {
-						//qDebug() << "hit board down bound";
-						ball->pos.y = calc_new(board_down_bound, pre_pos.y - radius, opt.delta_t, vel.y) + radius;
-						ball->reverse_y_vel();
-					}
-				}
-			}
 		}
 		else if (vel.x < 0) {
 			// 检查左板子
-			std::shared_ptr<ObjBoard> board = boards_[0];
-			const float board_up_bound = board->pos.y - board->length / 2.0f;
-			const float board_down_bound = board->pos.y + board->length / 2.0f;
-			const float board_half_width = board->width / 2.0f;
-			const float board_left_bound = board->pos.x - board_half_width;
-			const float board_right_bound = board->pos.x + board_half_width;
-			const float hit_x = board->pos.x + board_half_width;
+			const float hit_x = pos_b1.x + b1_half_width;
 			const float t = calc_t(hit_x, ball->pos.x - radius, opt.delta_t, vel.x);
 			if (t <= 1 && 0 <= t) { // 碰撞
 				//qDebug() << "hit board right bound line";
-				if (board_down_bound + radius >= pos.y && pos.y >= board_up_bound - radius) {
+				if (b1_down_bound + radius >= pos.y && pos.y >= b1_up_bound - radius) {
 					//qDebug() << "hit board right bound";
 					float new_x = calc_new(hit_x, ball->pos.x - radius, opt.delta_t, vel.x);
 					ball->pos.x = new_x + radius;
 					ball->reverse_x_vel();
 				}
 			}
-			// 左板子上下边界
-			if (vel.y > 0) {
-				// 上边界
-				float t = calc_t(board_up_bound, pre_pos.y + radius, opt.delta_t, vel.y);
+		}
+
+		if (vel.y > 0) {
+			// 两个板子的上边界
+			bool judge_up_bound = true;
+			float up_bound;
+			if (b1_left_bound - radius <= pos.x && pos.x <= b1_right_bound + radius) { // 球位于左边板子的范围
+				up_bound = b1_up_bound;
+			}
+			else if (b2_left_bound - radius <= pos.x && pos.x <= b2_right_bound + radius) {
+				up_bound = b2_up_bound;
+			}
+			else {
+				judge_up_bound = false;
+			}
+			if (judge_up_bound) {
+				float t = calc_t(up_bound, pre_pos.y + radius, opt.delta_t, vel.y);
 				if (t <= 1 && 0 <= t) { // 碰撞
-					if (board_left_bound - radius <= pos.x && pos.x <= board_right_bound + radius) {
-						//qDebug() << "hit board up bound";
-						ball->pos.y = calc_new(board_up_bound, pre_pos.y + radius, opt.delta_t, vel.y) - radius;
-						ball->reverse_y_vel();
-					}
+					ball->pos.y = calc_new(up_bound, pre_pos.y + radius, opt.delta_t, vel.y) - radius;
+					ball->reverse_y_vel();
 				}
 			}
-			else if (vel.y < 0) {
-				// 下边界
-				float t = calc_t(board_down_bound, pre_pos.y - radius, opt.delta_t, vel.y);
+		}
+		else if (vel.y < 0) {
+			// 两个板子的下边界
+			bool judge_down_bound = true;
+			float down_bound;
+			if (b1_left_bound - radius <= pos.x && pos.x <= b1_right_bound + radius) { // 球位于左边板子的范围
+				down_bound = b1_down_bound;
+			}
+			else if (b2_left_bound - radius <= pos.x && pos.x <= b2_right_bound + radius) {
+				down_bound = b2_down_bound;
+			}
+			else {
+				judge_down_bound = false;
+			}
+			if (judge_down_bound) {
+				float t = calc_t(down_bound, pre_pos.y - radius, opt.delta_t, vel.y);
 				if (t <= 1 && 0 <= t) { // 碰撞
-					if (board_left_bound - radius <= pos.x && pos.x <= board_right_bound + radius) {
-						//qDebug() << "hit board down bound";
-						ball->pos.y = calc_new(board_down_bound, pre_pos.y - radius, opt.delta_t, vel.y) + radius;
-						ball->reverse_y_vel();
-					}
+					ball->pos.y = calc_new(down_bound, pre_pos.y - radius, opt.delta_t, vel.y) + radius;
+					ball->reverse_y_vel();
 				}
 			}
+
 		}
 	}
 
