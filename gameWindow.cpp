@@ -18,12 +18,11 @@ GameWindow::GameWindow(QWidget* parent)
 
 	connect(playground_, &Playground::a_new_round, this, [this]() {
 		if (BallPossession::LEFT == playground_->possession_) {
-			angle_ = 45;
+			angle_ = M_PI_4;
 		}
 		else {
-			angle_ = 180 - 45;
+			angle_ = M_PI - M_PI_4;
 		}
-
 		});
 	//setMouseTracking(true);
 }
@@ -134,6 +133,20 @@ void GameWindow::paintEvent(QPaintEvent* event)
 			painter.drawLine(p1, p1 + delta);
 		}
 	}
+
+	// º”ÀŸ∂»
+	painter.setPen(QPen(Qt::red, 3));
+	for (std::shared_ptr<ObjBall>& ball : playground_->balls_) {
+		if (ball->has_acceleration()) {
+			Position ball_pos = ball->pos;
+			const float scale = 75;
+			//qDebug() << "draw line";
+			painter.drawLine(
+				QPoint(ball_pos.x, ball_pos.y),
+				QPoint(ball_pos.x + scale * ball->a.x, ball_pos.y + scale * ball->a.y)
+			);
+		}
+	}
 }
 
 void GameWindow::keyPressEvent(QKeyEvent* event)
@@ -166,6 +179,13 @@ void GameWindow::keyPressEvent(QKeyEvent* event)
 			playground_->game_state_ = GameState::GOING_ON;
 		}
 	}break;
+	case Qt::Key_Z: {
+		//playground_->add_acceleration(playground_->ball(0).get(), Vec2D{ 0,1 });
+		playground_->apply_acceleration(playground_->ball(0).get(), Vec2D{ 0, 0.5 });
+	}break;
+	case Qt::Key_0: {
+		playground_->apply_acceleration(playground_->ball(0).get(), Vec2D{ 0, -0.5 });
+	}break;
 
 	default:
 		break;
@@ -183,6 +203,10 @@ void GameWindow::keyReleaseEvent(QKeyEvent* event)
 	case Qt::Key_Up:
 	case Qt::Key_Down: {
 		this->playground_->board_ctrl(1, -1);
+	}break;
+	case Qt::Key_Z:
+	case Qt::Key_0: {
+		playground_->apply_acceleration(playground_->ball(0).get(), Vec2D{ 0, 0 });
 	}break;
 
 	default:

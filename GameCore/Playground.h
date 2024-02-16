@@ -38,6 +38,9 @@ struct GameOpt {
 	float aim_line_length = 20.0f;
 	QColor aim_line_color{ 0, 0, 0 };
 
+	// control
+	//Qt::Key apply_a = Qt::Key_Z;
+
 	GameOpt() = default;
 	~GameOpt() = default;
 };
@@ -68,6 +71,11 @@ public:
 	// 指定玩家、发射的角度
 	void shoot_ball(int player, float angle = M_PI_4);
 
+	// 向指定物体施加加速度
+	void add_acceleration(MovingObj *obj, const Vec2D& a);
+
+	void apply_acceleration(MovingObj* obj, const Vec2D& a);
+
 	/* 计算接口 */
 	// 游戏更新一帧
 	void update_one_frame();
@@ -76,8 +84,9 @@ public:
 	// 返回物体集合: 板子1、板子2、球
 	std::vector<std::shared_ptr<GameObj>> get_game_objs();
 
-	const std::shared_ptr<ObjBoard>& left_board() const { return boards_[0]; }
-	const std::shared_ptr<ObjBoard>& right_board() const { return boards_[1]; }
+	std::shared_ptr<ObjBoard>& left_board() { return boards_[0]; }
+	std::shared_ptr<ObjBoard>& right_board() { return boards_[1]; }
+	std::shared_ptr<ObjBall>& ball(size_t index) { return balls_[index]; }
 
 	/* 游戏状态接口 */
 	GameState game_state()const { return game_state_; }

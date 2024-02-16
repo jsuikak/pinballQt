@@ -30,6 +30,8 @@ public:
 	auto pos_x() const { return pos.x; }
 	auto pos_y() const { return pos.y; }
 
+	bool has_acceleration() const { return !(a == Vec2D{}); }
+
 	// 当前时刻的位置
 	Position pos;
 
@@ -37,6 +39,9 @@ public:
 	Position pre_pos;
 
 	Velocity vel;
+
+	// acceleration
+	Vec2D a;
 private:
 	// 一帧表示多少秒
 	const float delta_t_ = 1;

@@ -82,6 +82,16 @@ void Playground::shoot_ball(int player, float angle)
 	ball->visible = true;
 }
 
+void Playground::add_acceleration(MovingObj* obj, const Vec2D& a)
+{
+	obj->a += a;
+}
+
+void Playground::apply_acceleration(MovingObj* obj, const Vec2D& a)
+{
+	obj->a = a;
+}
+
 void Playground::update_one_frame()
 {
 	for (auto& obj : get_game_objs()) {

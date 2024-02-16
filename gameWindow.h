@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include <qtimer.h>
+#include <cmath>
 
 #include "ui_gameWindow.h"
 #include "GameCore/Playground.h"
@@ -42,7 +43,7 @@ private:
 	// 瞄准中
 	bool aiming_ = false;
 	// 瞄准角度
-	float angle_ = 45.0f;
+	float angle_ = M_PI_4;
 
 	GameOpt opt_;
 	//QTimer timer{ this };

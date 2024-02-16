@@ -18,5 +18,8 @@ void MovingObj::update_one_frame()
 void MovingObj::update_one_frame(float delta_t)
 {
 	pre_pos = pos;
+
+	vel += a * delta_t;
 	pos += vel * delta_t;
+
 }

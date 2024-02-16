@@ -21,6 +21,12 @@ public:
 		return *this;
 	}
 	Vec2D operator*(const float t) { return Vec2D{ x * t, y * t }; }
+	Vec2D operator=(const Vec2D& rhs) {
+		x = rhs.x;
+		y = rhs.y;
+		return *this;
+	}
+	bool operator==(const Vec2D& rhs) const { return x == rhs.x && y == rhs.y; }
 
 	float x = 0;
 	float y = 0;
