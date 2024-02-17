@@ -44,7 +44,8 @@ mainWindow::mainWindow(QWidget* parent)
 	/* 点击帮助按钮 */
 	connect(ui->helpBtn, &QPushButton::clicked, this, [this]() {
 		ui->stackedWidget->setCurrentIndex(2);
-		});
+		}
+	);
 
 
 	// 新的一局，根据发球权修改窗口标题
@@ -55,12 +56,14 @@ mainWindow::mainWindow(QWidget* parent)
 		else {
 			this->setWindowTitle(QString("玩家2发球"));
 		}
-		});
+		}
+	);
 
 	// 开始游戏后，标题改变
 	connect(game_win_, &GameWindow::gameStart, this, [this]() {
 		this->setWindowTitle(QString("GO!"));
-		});
+		}
+	);
 
 	/* 菜单栏 */
 	// 新游戏
@@ -69,7 +72,8 @@ mainWindow::mainWindow(QWidget* parent)
 		if (ui->stackedWidget->currentIndex() != 1) {
 			emit ui->startBtn->clicked();
 		}
-		});
+		}
+	);
 	// 回到标题
 	connect(ui->titleAction, &QAction::triggered, this, [this]() {
 		// 摧毁子线程
@@ -85,7 +89,8 @@ mainWindow::mainWindow(QWidget* parent)
 		// 切换页面
 		ui->stackedWidget->setCurrentIndex(0);
 		this->setWindowTitle(QString("PinBall"));
-		});
+		}
+	);
 }
 
 mainWindow::~mainWindow()

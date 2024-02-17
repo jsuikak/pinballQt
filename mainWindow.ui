@@ -109,7 +109,7 @@
             <widget class="QWidget" name="btnsWidget" native="true">
              <property name="styleSheet">
               <string notr="true">QPushButton{
-	
+	outline:none;
 	border:none;
 	border-radius:10px;
 	padding:9px 15px;

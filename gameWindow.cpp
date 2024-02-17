@@ -22,7 +22,6 @@ GameWindow::GameWindow(GameOpt opt, QWidget* parent)
 			angle_ = M_PI - M_PI_4;
 		}
 		});
-	//setMouseTracking(true);
 }
 
 GameWindow::~GameWindow()
@@ -164,31 +163,34 @@ void GameWindow::keyPressEvent(QKeyEvent* event)
 		this->playground_->board_ctrl(1, 1);
 	}break;
 	case Qt::Key_Space: {
-		// 发球
-		if (playground_->game_state() == GameState::WAIT_TO_START) {
-			if (playground_->possession_ == LEFT) {
-				//qDebug() << "shoot ball with angle:" << angle_;
-				this->playground_->shoot_ball(0, angle_);
-			}
-			else {
-				//qDebug() << "shoot ball with angle:" << angle_;
-				this->playground_->shoot_ball(1, angle_);
-			}
+		// P1发球
+		if (playground_->game_state() == GameState::WAIT_TO_START && playground_->possession() == LEFT) {
+			this->playground_->shoot_ball(0, angle_);
+			playground_->game_state_ = GameState::GOING_ON;
+			emit gameStart();
+		}
+	}break;
+	case Qt::Key_Enter:
+	case Qt::Key_Return:
+	{
+		// P2发球
+		if (playground_->game_state() == GameState::WAIT_TO_START && playground_->possession() == RIGHT) {
+			this->playground_->shoot_ball(1, angle_);
 			playground_->game_state_ = GameState::GOING_ON;
 			emit gameStart();
 		}
 	}break;
 	case Qt::Key_Z: {
-		//playground_->add_acceleration(playground_->ball(0).get(), Vec2D{ 0,1 });
-		playground_->apply_acceleration(playground_->ball(0).get(), Vec2D{ 0, 0.5 });
+		// 球没发射，不施加重力
+		if (!playground_->wait_to_start()) {
+			playground_->apply_acceleration(playground_->ball(0).get(), Vec2D{ 0, 0.5 });
+		}
 	}break;
 	case Qt::Key_0: {
-		playground_->apply_acceleration(playground_->ball(0).get(), Vec2D{ 0, -0.5 });
+		if (!playground_->wait_to_start()) {
+			playground_->apply_acceleration(playground_->ball(0).get(), Vec2D{ 0, -0.5 });
+		}
 	}break;
-	//case Qt::Key_Escape: {
-	//	emit backToTitle();
-	//	init_game();
-	//}break;
 	default:
 		break;
 	}

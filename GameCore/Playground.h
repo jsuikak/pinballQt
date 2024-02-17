@@ -59,7 +59,7 @@ public:
 	/* сно╥в╢л╛╫с©з */
 	GameState game_state()const { return game_state_; }
 	BallPossession possession() const { return possession_; }
-
+	bool wait_to_start() const { return game_state_ == GameState::WAIT_TO_START; }
 public:
 	GameOpt opt;
 
