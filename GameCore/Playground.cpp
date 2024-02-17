@@ -30,6 +30,11 @@ void Playground::init_gameobjs()
 
 }
 
+void Playground::init_gamestate()
+{
+	game_state_ = GameState::WAIT_TO_START;
+}
+
 void Playground::board_ctrl(int player, int dir)
 {
 	//qDebug("board ctrl: %d %d", player, dir);
@@ -61,6 +66,7 @@ void Playground::board_ctrl(int player, int dir)
 
 void Playground::shoot_ball(int player, float angle)
 {
+	qDebug() << "shoot a ball";
 	std::shared_ptr<ObjBall>& ball = balls_[0];
 	//angle = angle / 180.0f * M_PI;
 	//qDebug() << __FUNCTION__ << "angle:" << angle;

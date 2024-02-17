@@ -68,6 +68,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/execution-charset:utf-8</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -95,6 +96,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameCore\Common\GameOpt.cpp" />
     <ClCompile Include="GameThread.cpp" />
     <ClCompile Include="gameWindow.cpp" />
     <ClCompile Include="GameCore\Common\rc.cpp" />
@@ -105,6 +107,7 @@
     <ClCompile Include="GameCore\GameObjs\ObjBall.cpp" />
     <ClCompile Include="GameCore\GameObjs\ObjBoard.cpp" />
     <ClCompile Include="GameCore\GameObjs\MovingObj.cpp" />
+    <QtRcc Include="GameCore\Common\Resource.qrc" />
     <QtRcc Include="mainWindow.qrc" />
     <QtUic Include="gameWindow.ui" />
     <QtUic Include="mainWindow.ui" />
@@ -116,6 +119,8 @@
     <ResourceCompile Include="pinballQt.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameCore\Common\BallPossession.h" />
+    <ClInclude Include="GameCore\Common\GameOpt.h" />
     <QtMoc Include="GameThread.h" />
     <QtMoc Include="gameWindow.h" />
     <ClInclude Include="GameCore\Common\GameState.h" />

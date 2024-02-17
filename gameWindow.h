@@ -14,10 +14,11 @@ QT_END_NAMESPACE
 class GameWindow : public QWidget
 {
 	friend class GameThread;
+	friend class mainWindow;
 	Q_OBJECT
 public:
-	GameWindow(QWidget* parent = nullptr);
 	~GameWindow();
+	GameWindow(GameOpt opt,QWidget* parent = nullptr);
 
 	void init_game();
 protected:
@@ -28,7 +29,6 @@ protected:
 	void paintEvent(QPaintEvent* event) override;
 	void keyPressEvent(QKeyEvent* event) override;
 	void keyReleaseEvent(QKeyEvent* event) override;
-	void closeEvent(QCloseEvent* event) override;
 private:
 	Ui::gameWindowClass* ui;
 	Playground* playground_;
@@ -38,7 +38,7 @@ private:
 	//QPainter *painter{ nullptr };
 
 	// 游戏正在进行
-	bool running_ = false;
+	//bool running_ = false;
 
 	// 瞄准中
 	bool aiming_ = false;
@@ -49,5 +49,6 @@ private:
 	//QTimer timer{ this };
 
 signals:
-	void windowClosed();
+	void backToTitle();
+	void gameStart();
 };

@@ -21,5 +21,4 @@ void MovingObj::update_one_frame(float delta_t)
 
 	vel += a * delta_t;
 	pos += vel * delta_t;
-
 }

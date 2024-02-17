@@ -1,38 +1,83 @@
 #include <thread>
 #include <qtimer.h>
+#include <qevent.h>
 #include <qmetaobject.h>
 
 #include "mainWindow.h"
 #include "gameWindow.h"
 #include "GameThread.h"
+#include "Common/GameOpt.h"
+#include "Common/BallPossession.h"
 
 mainWindow::mainWindow(QWidget* parent)
 	: QMainWindow(parent)
 	, ui(new Ui::mainWindowClass())
 {
 	ui->setupUi(this);
-	game_win_ = new GameWindow();
+	this->setWindowIcon(QIcon(QStringLiteral(":/resource/resource/icons/乒乓球.png")));
+
+	GameOpt opt;
+	opt.ball_speed = 10;
+
+	this->resize(QSize(opt.width, opt.height + ui->menuBar->height()));
+	game_win_ = new GameWindow(opt);
+	ui->stackedWidget->addWidget(game_win_);
+
+
+	/* 点击开始游戏按钮 */
 	connect(ui->startBtn, &QPushButton::clicked, this, [this]() {
-		/* 开始游戏 */
 		// 初始化游戏
 		game_win_->init_game();
-		// 显示窗口
-		game_win_->show();
+		emit game_win_->playground_->a_new_round();
+		ui->stackedWidget->setCurrentIndex(1);
 		// 游戏事件循环
 		// 新开一个线程 不阻塞Qt事件循环
 		//std::thread{ std::bind(&gameWindow::game_loop, game_win_) }.detach();
-		(new GameThread(game_win_, this))->start();
-
-		//QTimer::singleShot(0, this, [this]() {
-		//	game_win_->game_loop();
-		//	});
-
+		game_thread_ = new GameThread(game_win_);
+		game_thread_->start();
 		}
 	);
+
+	connect(game_win_, &GameWindow::backToTitle, this, [this]() {
+		// 子线程停止更新
+		game_thread_->stopThread();
+		//game_thread_->exit(0);
+		game_thread_->wait();
+		//game_win_->init_game();
+		delete game_thread_;
+		game_thread_ = nullptr;
+
+		// 切换页面
+		ui->stackedWidget->setCurrentIndex(0);
+		this->setWindowTitle(QString("PinBall"));
+		});
+
+	// 新的一局，根据发球权修改窗口标题
+	connect(game_win_->playground_, &Playground::a_new_round, this, [this]() {
+		if (game_win_->playground_->possession() == BallPossession::LEFT) {
+			this->setWindowTitle(QString("玩家1发球"));
+		}
+		else {
+			this->setWindowTitle(QString("玩家2发球"));
+		}
+		});
+
+	// 开始游戏后，标题改变
+	connect(game_win_, &GameWindow::gameStart, this, [this]() {
+		this->setWindowTitle(QString("GO!"));
+		});
+
+	connect(ui->new_game_action, &QAction::triggered, this, [this]() {
+		game_win_->init_game();
+		});
 }
 
 mainWindow::~mainWindow()
 {
 	delete game_win_;
 	delete ui;
+	if (game_thread_) {
+		delete game_thread_;
+	}
 }
+

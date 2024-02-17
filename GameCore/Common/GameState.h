@@ -5,5 +5,5 @@ enum GameState
 	WAIT_TO_START,
 	GOING_ON,
 	CHECKOUT,
-	GAME_QIUT
+	GAME_QUIT
 };

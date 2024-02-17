@@ -41,6 +41,9 @@
     <ResourceCompile Include="pinballQt.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+    <QtRcc Include="GameCore\Common\Resource.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -79,6 +82,9 @@
     <ClCompile Include="GameThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameCore\Common\GameOpt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCore\Common\Vec2D.h">
@@ -106,6 +112,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameCore\Common\GameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCore\Common\GameOpt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCore\Common\BallPossession.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

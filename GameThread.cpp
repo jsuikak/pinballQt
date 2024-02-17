@@ -1,3 +1,4 @@
+#include <qdebug.h>
 #include "GameThread.h"
 #include "GameCore/Playground.h"
 #include "gameWindow.h"
@@ -7,8 +8,13 @@ GameThread::GameThread(GameWindow* game_window, QObject* parent) :QThread(parent
 {
 	playground_ = game_window->playground_;
 	game_win_ = game_window;
-	//connect(this, &GameThread::need_update, game_window, qOverload<>(&QWidget::update));
-	connect(game_win_, &GameWindow::windowClosed, this, [this]() { thread_stop = true; });
+
+	qDebug() << "GameThread created";
+}
+
+GameThread::~GameThread()
+{
+	qDebug() << "GameThread destroyed";
 }
 
 
@@ -26,8 +32,9 @@ void GameThread::run()
 		// ²éÑ¯ÓÎÏ·×´Ì¬
 		GameState state = playground_->game_state();
 
-		if (state == GameState::GAME_QIUT || thread_stop) {
+		if (state == GameState::GAME_QUIT || thread_stop) {
 			break;
 		}
 	}
+	qDebug() << "quit GameThread loop";
 }

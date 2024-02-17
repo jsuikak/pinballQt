@@ -4,16 +4,14 @@
 #include <qshortcut.h>
 #include <qevent.h>
 
-GameWindow::GameWindow(QWidget* parent)
-	: QWidget(parent)
+GameWindow::GameWindow(GameOpt opt, QWidget* parent)
+	: QWidget(parent),
+	opt_(opt)
 	, ui(new Ui::gameWindowClass())
 {
 	ui->setupUi(this);
-	GameOpt opt;
-	opt.ball_speed = 10;
 	//game_ = new Game(opt);
 	playground_ = new Playground(opt);
-	opt_ = opt;
 	this->resize(opt_.width, opt_.height);
 
 	connect(playground_, &Playground::a_new_round, this, [this]() {
@@ -36,7 +34,7 @@ GameWindow::~GameWindow()
 void GameWindow::init_game()
 {
 	playground_->init_gameobjs();
-	running_ = true;
+	playground_->init_gamestate();
 }
 
 void GameWindow::mouseMoveEvent(QMouseEvent* event)
@@ -177,6 +175,7 @@ void GameWindow::keyPressEvent(QKeyEvent* event)
 				this->playground_->shoot_ball(1, angle_);
 			}
 			playground_->game_state_ = GameState::GOING_ON;
+			emit gameStart();
 		}
 	}break;
 	case Qt::Key_Z: {
@@ -186,7 +185,10 @@ void GameWindow::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_0: {
 		playground_->apply_acceleration(playground_->ball(0).get(), Vec2D{ 0, -0.5 });
 	}break;
-
+	case Qt::Key_Escape: {
+		emit backToTitle();
+		init_game();
+	}break;
 	default:
 		break;
 	}
@@ -212,12 +214,5 @@ void GameWindow::keyReleaseEvent(QKeyEvent* event)
 	default:
 		break;
 	}
-}
-
-void GameWindow::closeEvent(QCloseEvent* event)
-{
-	emit windowClosed();
-	// ¹Ø±Õ´°¿Ú
-	event->accept();
 }
 
