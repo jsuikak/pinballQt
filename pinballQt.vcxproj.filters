@@ -85,6 +85,9 @@
     <ClCompile Include="GameCore\Common\GameOpt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HelpWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCore\Common\Vec2D.h">
@@ -131,9 +134,15 @@
     <QtMoc Include="GameCore\Playground.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="HelpWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="gameWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="HelpWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

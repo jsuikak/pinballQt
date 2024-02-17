@@ -3,6 +3,7 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_mainWindow.h"
 #include "gameWindow.h"
+#include "HelpWindow.h"
 #include "GameThread.h"
 
 QT_BEGIN_NAMESPACE
@@ -20,4 +21,5 @@ private:
 	Ui::mainWindowClass* ui;
 	GameWindow* game_win_{};
 	GameThread* game_thread_{};
+	HelpWindow* help_win_{};
 };

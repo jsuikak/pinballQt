@@ -185,10 +185,10 @@ void GameWindow::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_0: {
 		playground_->apply_acceleration(playground_->ball(0).get(), Vec2D{ 0, -0.5 });
 	}break;
-	case Qt::Key_Escape: {
-		emit backToTitle();
-		init_game();
-	}break;
+	//case Qt::Key_Escape: {
+	//	emit backToTitle();
+	//	init_game();
+	//}break;
 	default:
 		break;
 	}

@@ -1,10 +1,10 @@
-#include <thread>
+ï»¿#include <thread>
 #include <qtimer.h>
 #include <qevent.h>
 #include <qmetaobject.h>
 
 #include "mainWindow.h"
-#include "gameWindow.h"
+
 #include "GameThread.h"
 #include "Common/GameOpt.h"
 #include "Common/BallPossession.h"
@@ -14,7 +14,7 @@ mainWindow::mainWindow(QWidget* parent)
 	, ui(new Ui::mainWindowClass())
 {
 	ui->setupUi(this);
-	this->setWindowIcon(QIcon(QStringLiteral(":/resource/resource/icons/Æ¹ÅÒÇò.png")));
+	this->setWindowIcon(QIcon(QStringLiteral(":/resource/resource/icons/ä¹’ä¹“çƒ.png")));
 
 	GameOpt opt;
 	opt.ball_speed = 10;
@@ -23,52 +23,68 @@ mainWindow::mainWindow(QWidget* parent)
 	game_win_ = new GameWindow(opt);
 	ui->stackedWidget->addWidget(game_win_);
 
+	help_win_ = new HelpWindow();
+	ui->stackedWidget->addWidget(help_win_);
 
-	/* µã»÷¿ªÊ¼ÓÎÏ·°´Å¥ */
+
+	/* ç‚¹å‡»å¼€å§‹æ¸¸æˆæŒ‰é’® */
 	connect(ui->startBtn, &QPushButton::clicked, this, [this]() {
-		// ³õÊ¼»¯ÓÎÏ·
+		// åˆå§‹åŒ–æ¸¸æˆ
 		game_win_->init_game();
 		emit game_win_->playground_->a_new_round();
 		ui->stackedWidget->setCurrentIndex(1);
-		// ÓÎÏ·ÊÂ¼þÑ­»·
-		// ÐÂ¿ªÒ»¸öÏß³Ì ²»×èÈûQtÊÂ¼þÑ­»·
+		// æ¸¸æˆäº‹ä»¶å¾ªçŽ¯
+		// æ–°å¼€ä¸€ä¸ªçº¿ç¨‹ ä¸é˜»å¡žQtäº‹ä»¶å¾ªçŽ¯
 		//std::thread{ std::bind(&gameWindow::game_loop, game_win_) }.detach();
 		game_thread_ = new GameThread(game_win_);
 		game_thread_->start();
 		}
 	);
 
-	connect(game_win_, &GameWindow::backToTitle, this, [this]() {
-		// ×ÓÏß³ÌÍ£Ö¹¸üÐÂ
-		game_thread_->stopThread();
-		//game_thread_->exit(0);
-		game_thread_->wait();
-		//game_win_->init_game();
-		delete game_thread_;
-		game_thread_ = nullptr;
-
-		// ÇÐ»»Ò³Ãæ
-		ui->stackedWidget->setCurrentIndex(0);
-		this->setWindowTitle(QString("PinBall"));
+	/* ç‚¹å‡»å¸®åŠ©æŒ‰é’® */
+	connect(ui->helpBtn, &QPushButton::clicked, this, [this]() {
+		ui->stackedWidget->setCurrentIndex(2);
 		});
 
-	// ÐÂµÄÒ»¾Ö£¬¸ù¾Ý·¢ÇòÈ¨ÐÞ¸Ä´°¿Ú±êÌâ
+
+	// æ–°çš„ä¸€å±€ï¼Œæ ¹æ®å‘çƒæƒä¿®æ”¹çª—å£æ ‡é¢˜
 	connect(game_win_->playground_, &Playground::a_new_round, this, [this]() {
 		if (game_win_->playground_->possession() == BallPossession::LEFT) {
-			this->setWindowTitle(QString("Íæ¼Ò1·¢Çò"));
+			this->setWindowTitle(QString("çŽ©å®¶1å‘çƒ"));
 		}
 		else {
-			this->setWindowTitle(QString("Íæ¼Ò2·¢Çò"));
+			this->setWindowTitle(QString("çŽ©å®¶2å‘çƒ"));
 		}
 		});
 
-	// ¿ªÊ¼ÓÎÏ·ºó£¬±êÌâ¸Ä±ä
+	// å¼€å§‹æ¸¸æˆåŽï¼Œæ ‡é¢˜æ”¹å˜
 	connect(game_win_, &GameWindow::gameStart, this, [this]() {
 		this->setWindowTitle(QString("GO!"));
 		});
 
+	/* èœå•æ  */
+	// æ–°æ¸¸æˆ
 	connect(ui->new_game_action, &QAction::triggered, this, [this]() {
 		game_win_->init_game();
+		if (ui->stackedWidget->currentIndex() != 1) {
+			emit ui->startBtn->clicked();
+		}
+		});
+	// å›žåˆ°æ ‡é¢˜
+	connect(ui->titleAction, &QAction::triggered, this, [this]() {
+		// æ‘§æ¯å­çº¿ç¨‹
+		if (game_thread_ != nullptr) {
+			game_thread_->stopThread();
+			//game_thread_->exit(0);
+			game_thread_->wait();
+			//game_win_->init_game();
+			delete game_thread_;
+			game_thread_ = nullptr;
+		}
+
+		// åˆ‡æ¢é¡µé¢
+		ui->stackedWidget->setCurrentIndex(0);
+		this->setWindowTitle(QString("PinBall"));
 		});
 }
 

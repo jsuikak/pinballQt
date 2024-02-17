@@ -19,7 +19,10 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">#centralWidget{
+	
+	background-color: rgb(252, 252, 252);
+}</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
@@ -310,6 +313,7 @@ QPushButton:pressed{
      <string>菜单</string>
     </property>
     <addaction name="new_game_action"/>
+    <addaction name="titleAction"/>
     <addaction name="setting_action"/>
    </widget>
    <addaction name="menu"/>
@@ -325,6 +329,14 @@ QPushButton:pressed{
   <action name="setting_action">
    <property name="text">
     <string>设置</string>
+   </property>
+  </action>
+  <action name="titleAction">
+   <property name="text">
+    <string>回到标题</string>
+   </property>
+   <property name="shortcut">
+    <string>Esc</string>
    </property>
   </action>
  </widget>
