@@ -73,7 +73,7 @@
     <ClCompile Include="GameCore\Common\rc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gameWindow.cpp">
+    <ClCompile Include="pages\gameWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameThread.cpp">
@@ -82,10 +82,10 @@
     <ClCompile Include="GameCore\Common\GameOpt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HelpWindow.cpp">
+    <ClCompile Include="pages\HelpWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SettingWindow.cpp">
+    <ClCompile Include="pages\SettingWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,7 +125,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="gameWindow.h">
+    <QtMoc Include="pages\gameWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="GameThread.h">
@@ -134,21 +134,21 @@
     <QtMoc Include="GameCore\Playground.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="HelpWindow.h">
+    <QtMoc Include="pages\HelpWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="SettingWindow.h">
+    <QtMoc Include="pages\SettingWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="gameWindow.ui">
+    <QtUic Include="pages\gameWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="HelpWindow.ui">
+    <QtUic Include="pages\HelpWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="SettingWindow.ui">
+    <QtUic Include="pages\SettingWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

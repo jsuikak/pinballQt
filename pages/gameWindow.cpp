@@ -123,7 +123,7 @@ void GameWindow::paintEvent(QPaintEvent* event)
 	// Ãé×¼Ïß
 	if (aiming_) {
 		float r = opt_.aim_line_length;
-		painter.setPen(opt_.aim_line_color);
+		painter.setPen(QPen(opt_.aim_line_color, opt_.aim_line_width));
 		if (playground_->possession_ == LEFT) {
 			Position b_p = playground_->left_board()->pos;
 			QPoint p1(b_p.x + playground_->left_board()->half_width + opt_.aim_line_margin, b_p.y);

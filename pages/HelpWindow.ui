@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>406</height>
+    <height>437</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,7 +37,7 @@
       <string>弹 球 游 戏</string>
      </property>
      <property name="icon">
-      <iconset resource="mainWindow.qrc">
+      <iconset resource="../mainWindow.qrc">
        <normaloff>:/resource/resource/icons/弹球.png</normaloff>:/resource/resource/icons/弹球.png</iconset>
      </property>
      <property name="iconSize">
@@ -268,7 +268,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="mainWindow.qrc"/>
+  <include location="../mainWindow.qrc"/>
  </resources>
  <connections/>
 </ui>

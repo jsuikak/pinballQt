@@ -61,10 +61,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <IncludePath>D:\VS\proj\pinballQt\GameCore;$(IncludePath)</IncludePath>
+    <IncludePath>D:\VS\proj\pinballQt;D:\VS\proj\pinballQt\GameCore;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <IncludePath>D:\VS\proj\pinballQt\GameCore;$(IncludePath)</IncludePath>
+    <IncludePath>D:\VS\proj\pinballQt;D:\VS\proj\pinballQt\GameCore;D:\VS\proj\pinballQt\pages;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -104,10 +104,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameCore\Common\GameOpt.cpp" />
-    <ClCompile Include="SettingWindow.cpp" />
-    <ClCompile Include="HelpWindow.cpp" />
+    <ClCompile Include="pages\SettingWindow.cpp" />
+    <ClCompile Include="pages\HelpWindow.cpp" />
     <ClCompile Include="GameThread.cpp" />
-    <ClCompile Include="gameWindow.cpp" />
+    <ClCompile Include="pages\gameWindow.cpp" />
     <ClCompile Include="GameCore\Common\rc.cpp" />
     <ClCompile Include="GameCore\Playground.cpp" />
     <ClCompile Include="GameCore\Common\Vec2D.cpp" />
@@ -117,9 +117,9 @@
     <ClCompile Include="GameCore\GameObjs\ObjBoard.cpp" />
     <ClCompile Include="GameCore\GameObjs\MovingObj.cpp" />
     <QtRcc Include="mainWindow.qrc" />
-    <QtUic Include="SettingWindow.ui" />
-    <QtUic Include="HelpWindow.ui" />
-    <QtUic Include="gameWindow.ui" />
+    <QtUic Include="pages\SettingWindow.ui" />
+    <QtUic Include="pages\HelpWindow.ui" />
+    <QtUic Include="pages\gameWindow.ui" />
     <QtUic Include="mainWindow.ui" />
     <QtMoc Include="mainWindow.h" />
     <ClCompile Include="GameCore\GameObjs\GameObj.cpp" />
@@ -132,12 +132,12 @@
     <ClInclude Include="GameCore\Common\BallPossession.h" />
     <ClInclude Include="GameCore\Common\GameOpt.h" />
     <QtMoc Include="GameThread.h" />
-    <QtMoc Include="gameWindow.h" />
+    <QtMoc Include="pages\gameWindow.h" />
     <ClInclude Include="GameCore\Common\GameState.h" />
-    <QtMoc Include="HelpWindow.h" />
+    <QtMoc Include="pages\HelpWindow.h" />
     <ClInclude Include="GameCore\Common\rc.h" />
     <QtMoc Include="GameCore\Playground.h" />
-    <QtMoc Include="SettingWindow.h" />
+    <QtMoc Include="pages\SettingWindow.h" />
     <ClInclude Include="GameCore\Common\Vec2D.h" />
     <ClInclude Include="GameCore\Common\Position.h" />
     <ClInclude Include="GameCore\Common\Velocity.h" />

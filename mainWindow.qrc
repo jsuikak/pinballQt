@@ -1,8 +1,9 @@
 <RCC>
-  <qresource prefix="/resource">
-    <file>resource/icons/弹球.png</file>
-    <file>resource/icons/乒乓球.png</file>
-    <file>resource/icons/帮助.png</file>
-    <file>resource/icons/start.png</file>
-  </qresource>
+    <qresource prefix="/resource">
+        <file>resource/icons/弹球.png</file>
+        <file>resource/icons/乒乓球.png</file>
+        <file>resource/icons/帮助.png</file>
+        <file>resource/icons/start.png</file>
+        <file>resource/icons/设置.png</file>
+    </qresource>
 </RCC>

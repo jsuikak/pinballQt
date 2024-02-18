@@ -1,8 +1,9 @@
 #include <qdebug.h>
 #include "GameThread.h"
 #include "GameCore/Playground.h"
-#include "gameWindow.h"
-#include "Common/GameState.h"
+#include "pages/gameWindow.h"
+
+#include "GameCore/Common/GameState.h"
 
 GameThread::GameThread(GameWindow* game_window, QObject* parent) :QThread(parent)
 {
