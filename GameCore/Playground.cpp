@@ -35,6 +35,20 @@ void Playground::init_gamestate()
 	game_state_ = GameState::WAIT_TO_START;
 }
 
+void Playground::updateOpt(GameOpt opt)
+{
+	this->opt = opt;
+	// 原有的清空
+	balls_.clear();
+	boards_.clear();
+
+	// 重建
+	balls_.emplace_back(std::make_shared<ObjBall>(opt.ball_radius, Position{}, Velocity{}, opt.ball_init_visible));
+	boards_.emplace_back(std::make_shared<ObjBoard>());
+	boards_.emplace_back(std::make_shared<ObjBoard>());
+	init_gamestate();
+}
+
 void Playground::board_ctrl(int player, int dir)
 {
 	//qDebug("board ctrl: %d %d", player, dir);

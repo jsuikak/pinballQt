@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <qtimer.h>
 #include <cmath>
+#include <qdebug.h>
 
 #include "ui_gameWindow.h"
 #include "GameCore/Playground.h"
@@ -18,9 +19,11 @@ class GameWindow : public QWidget
 	Q_OBJECT
 public:
 	~GameWindow();
-	GameWindow(GameOpt opt,QWidget* parent = nullptr);
+	GameWindow(GameOpt opt, QWidget* parent = nullptr);
 
 	void init_game();
+	auto opt() -> GameOpt const { return opt_; }
+	void updateOpt(GameOpt opt);
 protected:
 	void mouseMoveEvent(QMouseEvent* event) override;
 	void mousePressEvent(QMouseEvent* event) override;

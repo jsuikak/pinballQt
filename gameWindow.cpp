@@ -22,6 +22,7 @@ GameWindow::GameWindow(GameOpt opt, QWidget* parent)
 			angle_ = M_PI - M_PI_4;
 		}
 		});
+
 }
 
 GameWindow::~GameWindow()
@@ -34,6 +35,12 @@ void GameWindow::init_game()
 {
 	playground_->init_gameobjs();
 	playground_->init_gamestate();
+}
+
+void GameWindow::updateOpt(GameOpt opt) 
+{
+	opt_ = opt;
+	emit playground_->updateOpt(opt_);
 }
 
 void GameWindow::mouseMoveEvent(QMouseEvent* event)

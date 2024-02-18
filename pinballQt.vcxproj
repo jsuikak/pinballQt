@@ -104,6 +104,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameCore\Common\GameOpt.cpp" />
+    <ClCompile Include="SettingWindow.cpp" />
     <ClCompile Include="HelpWindow.cpp" />
     <ClCompile Include="GameThread.cpp" />
     <ClCompile Include="gameWindow.cpp" />
@@ -115,8 +116,8 @@
     <ClCompile Include="GameCore\GameObjs\ObjBall.cpp" />
     <ClCompile Include="GameCore\GameObjs\ObjBoard.cpp" />
     <ClCompile Include="GameCore\GameObjs\MovingObj.cpp" />
-    <QtRcc Include="GameCore\Common\Resource.qrc" />
     <QtRcc Include="mainWindow.qrc" />
+    <QtUic Include="SettingWindow.ui" />
     <QtUic Include="HelpWindow.ui" />
     <QtUic Include="gameWindow.ui" />
     <QtUic Include="mainWindow.ui" />
@@ -136,6 +137,7 @@
     <QtMoc Include="HelpWindow.h" />
     <ClInclude Include="GameCore\Common\rc.h" />
     <QtMoc Include="GameCore\Playground.h" />
+    <QtMoc Include="SettingWindow.h" />
     <ClInclude Include="GameCore\Common\Vec2D.h" />
     <ClInclude Include="GameCore\Common\Position.h" />
     <ClInclude Include="GameCore\Common\Velocity.h" />

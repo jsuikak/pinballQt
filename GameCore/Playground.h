@@ -30,6 +30,9 @@ public:
 
 	void init_gamestate();
 
+	// 根据传入的opt更新设置
+	void updateOpt(GameOpt opt);
+
 	/* 游戏控制接口 */
 	// 板子控制，调用函数后会给板子一个速度
 	// 指定控制的玩家、上下(dir= 0/dir=1)
